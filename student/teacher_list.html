@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Cards</title>
+    <style>
+        .teacher-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+            display: inline-block;
+        }
+        .teacher-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .teacher-email {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .follow-button, .chat-button {
+            background-color: #3490dc;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .chat-button {
+            background-color: #47a447;
+        }
+    </style>
+</head>
+<body>
+<div id="teacher-list">
+    <!-- Teacher cards will be dynamically added here -->
+</div>
+
+<script>
+    const teacherList = document.getElementById('teacher-list');
+
+    function renderTeachers(teachers) {
+        teacherList.innerHTML = '';
+
+        teachers.forEach(teacher => {
+            const card = document.createElement('div');
+            card.className = 'teacher-card';
+
+            const name = document.createElement('div');
+            name.className = 'teacher-name';
+            name.textContent = teacher.name;
+
+            const email = document.createElement('div');
+            email.className = 'teacher-email';
+            email.textContent = teacher.email;
+
+            const buttonContainer = document.createElement('div');
+            buttonContainer.style.display = 'flex';
+            buttonContainer.style.alignItems = 'center';
+
+            const followButton = document.createElement('button');
+            followButton.className = 'follow-button';
+            followButton.textContent = teacher.followed ? 'Unfollow' : 'Follow';
+            followButton.addEventListener('click', () => toggleFollow(teacher));
+
+            const chatButton = document.createElement('button');
+            chatButton.className = 'chat-button';
+            chatButton.textContent = 'Chat';
+            chatButton.addEventListener('click', () => startChat(teacher));
+
+            buttonContainer.appendChild(followButton);
+            buttonContainer.appendChild(chatButton);
+
+            card.appendChild(name);
+            card.appendChild(email);
+            card.appendChild(buttonContainer);
+
+            teacherList.appendChild(card);
+        });
+    }
+
+    function toggleFollow(teacher) {
+        const newFollowStatus = !teacher.followed;
+
+        fetch(localStorage.getItem('base_url')+`api/students/teacher_follow?teacher_id=${teacher.id}`, {
+            method: 'PUT', // Or 'PUT' depending on your API
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':  localStorage.getItem('token'),
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ followed: newFollowStatus })
+        })
+            .then(response => response.json())
+            .then(data => {
+                get_teachers()
+
+            })
+            .catch(error => console.error('Error updating follow status:', error));
+    }
+    function startChat(teacher) {
+        // Start a chat with the teacher
+            message=prompt("请输入消息");
+        if(message==null){
+            return;
+        }
+        fetch(localStorage.getItem('base_url')+`api/students/chat`,{
+            method: 'POST', // Or 'PUT' depending on your API
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':  localStorage.getItem('token'),
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                'targetTeacherId': teacher.id,
+                'message': message
+            })
+        }).then(response => response.json())
+            .then(()=>{
+                alert("发送成功")
+            });
+        console.log(`Starting chat with ${teacher.id}`);
+    }
+
+    function get_teachers() {
+        // Fetch teachers data from the backend
+        fetch(localStorage.getItem('base_url')+'/api/students/teacher_list', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json', // Specify the content type
+                'Authorization': localStorage.getItem('token'),// Include your access token
+                'X-Requested-With': 'XMLHttpRequest' // Tell the server this is an XHR request
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                const teachers = data; // Assuming the JSON response is an array of teachers
+                renderTeachers(teachers);
+            })
+            .catch(error => console.error('Error fetching teachers:', error));
+    }
+
+    get_teachers();
+</script>
+</body>
+</html>

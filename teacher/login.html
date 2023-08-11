@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>教师登录页面</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h2>教师登录</h2>
+    <form id="registration-form">
+        <div>
+            <label for="email">邮箱：</label>
+            <input type="email" id="email" name="account" required>
+        </div>
+        <div>
+            <label for="password">密码：</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="button-container">
+        <div>
+            <input type="submit" value="登录">
+        </div>
+            <button id="register-button">管理员注册</button>
+            <button id="student-button">学生登录</button>
+    </div>
+
+    </form>
+    <div id="result"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="script-login.js"></script>
+</body>
+</html>

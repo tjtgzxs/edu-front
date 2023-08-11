@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>教师注册页面</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h2>教师注册</h2>
+    <form id="registration-form">
+        <div>
+            <label for="email">邮箱：</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="password">密码：</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <label for="confirm-password">确认密码：</label>
+            <input type="password" id="confirm-password" name="confirm_password" required>
+        </div>
+        <div class="school-input-container">
+            <label id="school-label">学校：</label>
+            <div id="input-container">
+                <!-- 这里将添加动态的输入框 -->
+            </div>
+            <button id="add-input">添加学校</button>
+        </div>
+
+        <div class="button-container">
+            <div>
+                <input type="submit" value="注册">
+            </div>
+            <div>
+                <button id="login-button">登录页面</button>
+            </div>
+        </div>
+
+    </form>
+    <div id="result"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="script-register.js"></script>
+</body>
+</html>

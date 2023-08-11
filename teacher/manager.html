@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Portal</title>
+    <link rel="stylesheet" href="manager-style.css">
+</head>
+<body>
+<header>
+    <h1>School Portal</h1>
+</header>
+
+<div class="content">
+    <div class="school-select">
+        <label for="school-select">选择学校：</label>
+        <select id="school-select">
+
+        </select>
+    </div>
+
+    <div class="teachers-section">
+        <h2>本校老师</h2>
+        <ul id="teacher-list"></ul>
+        <button id="new-teacher-btn" data-user-type="teacher">新建老师</button>
+    </div>
+
+    <div class="students-section">
+        <h2>学生列表</h2>
+        <ul id="student-list"></ul>
+        <button id="new-student-btn" data-user-type="student">新建学生</button>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="input-form" class="hidden">
+            <label for="input1">Email/Account:</label>
+            <input type="text" id="input1" name="input1" required>
+            <br>
+            <label for="input2">Password:</label>
+            <input type="password" id="input2" name="input2" required>
+            <br>
+            <button type="submit">提交</button>
+        </form>
+    </div>
+</div>
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+<script src="manager-js.js"></script>
+</body>
+</html>

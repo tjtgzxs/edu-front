@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+<!--    通过返回值跳转页面-->
+// 假设有一个获取接口数据的函数
+function fetchDataFromAPI(apiURL) {
+    return fetch(apiURL,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json', // Specify the content type
+            'Authorization': localStorage.getItem('token'),// Include your access token
+            'X-Requested-With': 'XMLHttpRequest' // Tell the server this is an XHR request
+        }
+    })
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+// 假设您的接口返回一个包含要跳转的页面信息的对象
+const apiURL = localStorage.getItem('base_url')+'api/teachers/teacher_auth';
+
+// 获取接口数据
+fetchDataFromAPI(apiURL)
+    .then(data => {
+        if (data.role == 1) {
+            // 如果接口数据中指示是首页，则跳转到首页
+            window.location.href = 'manager.html';
+        } else if (data.role == 2) {
+            // 如果接口数据中指示是关于页面，则跳转到关于页面
+            window.location.href = 'teacher.html';
+        } else {
+            // 默认情况下，跳转到一个默认页面
+            window.location.href = 'login.html';
+        }
+    });
+
+</script>
+</html>
