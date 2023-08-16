@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('myModal');
     const inputForm = document.getElementById('input-form');
     const modalClose = document.getElementsByClassName('close')[0];
-    const socket = new WebSocket(localStorage.getItem('ws_url')+'api/websocket'); // Replace with your WebSocket URL
+    // const socket = new WebSocket(localStorage.getItem('ws_url')+'api/websocket'); // Replace with your WebSocket URL
 
     function openModal() {
         modal.style.display = 'block';
