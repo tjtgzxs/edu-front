@@ -17,6 +17,7 @@
             position: fixed;
             top: 0;
             width: 100%;
+            margin-bottom: 20px;
         }
 
         .nav-link {
@@ -71,11 +72,11 @@
     </style>
 </head>
 <body>
-<h1>Student List</h1>
 <header class="navbar">
-    <a href="all_students.html" class="nav-link">所有学生</a>
-    <a href="teacher.html" class="nav-link active">关注我的学生</a>
+    <a href="all_students.html" class="nav-link active">所有学生</a>
+    <a href="teacher.html" class="nav-link">关注我的学生</a>
 </header>
+<h1>Student List</h1>
 <div id="teacher-list">
     <!-- Teacher cards will be dynamically added here -->
 </div>
@@ -148,7 +149,7 @@
 
     function get_teachers() {
         // Fetch teachers data from the backend
-        fetch(localStorage.getItem('base_url')+'/api/teachers/followers', {
+        fetch(localStorage.getItem('base_url')+'/api/teachers/all_students', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json', // Specify the content type

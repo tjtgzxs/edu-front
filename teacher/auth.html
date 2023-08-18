@@ -32,11 +32,9 @@ const apiURL = localStorage.getItem('base_url')+'api/teachers/teacher_auth';
 fetchDataFromAPI(apiURL)
     .then(data => {
         if (data.role == 1) {
-            // 如果接口数据中指示是首页，则跳转到首页
             window.location.href = 'manager.html';
         } else if (data.role == 2) {
-            // 如果接口数据中指示是关于页面，则跳转到关于页面
-            window.location.href = 'teacher.html';
+            window.location.href = 'all_students.html';
         } else {
             // 默认情况下，跳转到一个默认页面
             window.location.href = 'login.html';
