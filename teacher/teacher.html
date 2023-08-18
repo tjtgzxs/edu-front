@@ -39,7 +39,7 @@
 <div id="teacher-list">
     <!-- Teacher cards will be dynamically added here -->
 </div>
-
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script>
     const teacherList = document.getElementById('teacher-list');
 
@@ -125,6 +125,50 @@
     }
 
     get_teachers();
+
+    fetch(localStorage.getItem('base_url')+'/api/teachers/info', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json', // Specify the content type
+            'Authorization': localStorage.getItem('token'),// Include your access token
+            'X-Requested-With': 'XMLHttpRequest' // Tell the server this is an XHR request
+        }
+    })
+        .then(response => response.json())
+        .then(user_info => {
+            console.log(user_info);
+            const pusher = new Pusher('c864f8443443a9f41758', {
+                cluster: 'ap3',
+                encrypted: true,
+                authEndpoint: localStorage.getItem("base_url")+'api/pusher/auth'
+
+            });
+
+            const channel = pusher.subscribe('private-chat');
+
+            channel.bind('client-message-'+user_info.id, data => {
+                console.log(data);
+                if(data.fromManagerId>0){
+                    alert("管理员给您发消息:"+data.message)
+                }
+                if (data.fromStudentId>0){
+                    alert("学生"+data.from_name+"给您发消息:"+data.message)
+                }
+
+                // showNotification(data.message);
+            });
+
+            function showNotification(message) {
+                const notificationElement = document.createElement('div');
+                notificationElement.className = 'notification';
+                notificationElement.innerHTML = message;
+                document.body.appendChild(notificationElement);
+
+                setTimeout(() => {
+                    document.body.removeChild(notificationElement);
+                }, 5000); // Remove the notification after 5 seconds
+            }
+        })
 </script>
 </body>
 </html>
